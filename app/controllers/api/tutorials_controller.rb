@@ -3,7 +3,11 @@ class Api::TutorialsController < ApplicationController
 
   # GET /api/tutorials
   def index
-    @tutorials = Tutorial.all
+    @tutorials = if params[:title]
+                   Tutorial.where('title LIKE ?', "%#{params[:title]}%")
+                 else
+                   Tutorial.all
+                 end
 
     render json: @tutorials
   end
@@ -43,13 +47,14 @@ class Api::TutorialsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tutorial
-      @tutorial = Tutorial.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def tutorial_params
-      params.require(:tutorial).permit(:title, :description, :published_status)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_tutorial
+    @tutorial = Tutorial.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def tutorial_params
+    params.require(:tutorial).permit(:title, :description, :published_status)
+  end
 end
