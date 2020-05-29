@@ -1,19 +1,19 @@
 class Api::TutorialsController < ApplicationController
   before_action :set_tutorial, only: [:show, :update, :destroy]
 
-  # GET /tutorials
+  # GET /api/tutorials
   def index
     @tutorials = Tutorial.all
 
     render json: @tutorials
   end
 
-  # GET /tutorials/1
+  # GET /api/tutorials/1
   def show
     render json: @tutorial
   end
 
-  # POST /tutorials
+  # POST /api/tutorials
   def create
     @tutorial = Tutorial.new(tutorial_params)
 
@@ -24,7 +24,7 @@ class Api::TutorialsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /tutorials/1
+  # PATCH/PUT /api/tutorials/1
   def update
     if @tutorial.update(tutorial_params)
       render json: @tutorial
@@ -33,9 +33,13 @@ class Api::TutorialsController < ApplicationController
     end
   end
 
-  # DELETE /tutorials/1
+  # DELETE /api/tutorials/1
   def destroy
     @tutorial.destroy
+  end
+
+  def destroy_all
+    Tutorial.destroy_all
   end
 
   private
